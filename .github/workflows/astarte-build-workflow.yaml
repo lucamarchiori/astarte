@@ -42,15 +42,15 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # Build and save each Astarte app Docker image in parallel
-      # and use build cache from GitHub Container Registry
+      # and use build cache from GitHub Container Registry (isolated per app to avoid cache thrashing)
       - name: Build ${{ matrix.app.name }}
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ${{ matrix.app.dockerfile }}
           push: false
-          cache-from: type=registry,ref=ghcr.io/${{ env.REPO_NAME }}:buildcache
-          cache-to: type=registry,ref=ghcr.io/${{ env.REPO_NAME }}:buildcache,mode=max
+          cache-from: type=registry,ref=ghcr.io/${{ env.REPO_NAME }}:${{ matrix.app.name }}-buildcache,scope=${{ matrix.app.name }}
+          cache-to: type=registry,ref=ghcr.io/${{ env.REPO_NAME }}:${{ matrix.app.name }}-buildcache,mode=max,scope=${{ matrix.app.name }}
           outputs: type=docker,dest=${{ runner.temp }}/${{ github.sha }}/${{ matrix.app.name }}.tar
 
       # Upload the built image as an artifact to be shared with other workflows
