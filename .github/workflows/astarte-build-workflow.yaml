@@ -54,6 +54,7 @@ jobs:
           outputs: type=docker,dest=${{ runner.temp }}/${{ github.sha }}/${{ matrix.app.name }}.tar
 
       # Upload the built image as an artifact to be shared with other workflows
+      # we use the commit SHA to avoid collisions between different workflow runs
       - name: Upload ${{ matrix.app.name }} artifact
         uses: actions/upload-artifact@v4
         with:

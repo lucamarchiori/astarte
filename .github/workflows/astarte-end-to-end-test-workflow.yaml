@@ -42,12 +42,12 @@ jobs:
       - name: Restore astarte images
         uses: actions/download-artifact@v4
         with:
-          path: ${{ runner.temp }}
+          path: ${{ runner.temp }}/${ github.sha }
       - name: Restore astarte e2e image
         uses: actions/download-artifact@v4
         with:
           name: astarte-e2e-image
-          path: ${{ runner.temp }}/${{ github.sha }}
+          path: ${{ runner.temp }}
       - name: Load astarte images
         run: ls ${{ runner.temp }}/*.tar | xargs --max-args 1 docker load --input
       - name: Start all Astarte services
