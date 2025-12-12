@@ -56,5 +56,5 @@ jobs:
       - name: Upload ${{ matrix.app.name }} artifact
         uses: actions/upload-artifact@v4
         with:
-          name: astarte-images
+          name: astarte-images-${{ matrix.app.name }}
           path: ${{ runner.temp }}/${{ matrix.app.name }}.tar
