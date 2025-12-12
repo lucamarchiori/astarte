@@ -51,7 +51,7 @@ jobs:
           push: false
           cache-from: type=registry,ref=ghcr.io/${{ env.REPO_NAME }}:buildcache
           cache-to: type=registry,ref=ghcr.io/${{ env.REPO_NAME }}:buildcache,mode=max
-          outputs: type=docker,dest=${{ runner.temp }}/${{ matrix.app.name }}.tar
+          outputs: type=docker,dest=${{ runner.temp }}/${{ github.sha }}/${{ matrix.app.name }}.tar
 
       # Upload the built image as an artifact to be shared with other workflows
       - name: Upload ${{ matrix.app.name }} artifact
