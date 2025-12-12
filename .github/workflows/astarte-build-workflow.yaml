@@ -58,6 +58,5 @@ jobs:
       - name: Upload ${{ matrix.app.name }} artifact
         uses: actions/upload-artifact@v4
         with:
-          retention-days: 5
-          name: ${{ matrix.app.name }}-${{ github.sha }}
-          path: ${{ runner.temp }}/${{ matrix.app.name }}.tar
+          name: astarte-images
+          path: ${{ runner.temp }}/{{ matrix.app.name }}.tar
