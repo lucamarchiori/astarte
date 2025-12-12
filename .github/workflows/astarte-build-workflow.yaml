@@ -2,8 +2,6 @@ name: Astarte build
 
 on:
   workflow_call:
-  workflow_dispatch:
-
 
 jobs:
   astarte-build:
@@ -30,7 +28,7 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Lowercase Repo Name
+      - name: Build repo name env variable
         run: |
           echo "REPO_NAME=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
         env:
@@ -43,6 +41,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Build and save each Astarte app Docker image in parallel
+      # and use build cache from GitHub Container Registry
       - name: Build ${{ matrix.app.name }}
         uses: docker/build-push-action@v6
         with:
@@ -53,8 +53,10 @@ jobs:
           cache-to: type=registry,ref=ghcr.io/${{ env.REPO_NAME }}:buildcache,mode=max
           outputs: type=docker,dest=${{ runner.temp }}/${{ matrix.app.name }}.tar
 
+      # Upload the built image as an artifact to be shared with other workflows
       - name: Upload ${{ matrix.app.name }} artifact
         uses: actions/upload-artifact@v4
         with:
-          name: astarte-images
-          path: ${{ runner.temp }}/${{ matrix.app.name }}.tar
+          retention-days: 5
+          name: ${{ matrix.app.name }}-${{ github.sha }}
+          path: ${{ runner.temp }}/${{ github.sha }}/${{ matrix.app.name }}.tar
