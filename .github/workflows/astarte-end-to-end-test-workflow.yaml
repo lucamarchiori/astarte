@@ -42,6 +42,7 @@ jobs:
       - name: Restore astarte images
         uses: actions/download-artifact@v4
         with:
+          name: astarte-images
           path: ${{ runner.temp }}
       - name: Restore astarte e2e image
         uses: actions/download-artifact@v4
