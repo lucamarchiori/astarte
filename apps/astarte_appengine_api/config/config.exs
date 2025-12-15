@@ -4,6 +4,8 @@
 # This configuration file is loaded before any dependency and
 # is restricted to this project.
 import Config
+import Config
+
 
 # General application configuration
 config :astarte_appengine_api, namespace: Astarte.AppEngine.API
