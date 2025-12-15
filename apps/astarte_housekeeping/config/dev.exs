@@ -37,3 +37,6 @@ config :logger, :console,
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
+# If desired, both `http:` and `https:` keys can be
+# configured to run both http and https servers on
+# different ports.
