@@ -17,6 +17,7 @@
 #
 
 import Config
+import Config
 
 port = System.get_env("APPENGINE_API_PORT", "4002") |> String.to_integer()
 
